@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #define layers 3 // Has to be int
 
-typedef struct {
+typedef struct neuron{
   int num;
   struct neuron *nextNeuron;
   struct neuron *nextLayer;
@@ -17,11 +17,11 @@ neuron* createNeuralNetwork(int neuronsInLayers[layers]){
 
   for(x=0; x<numLayers; x++){
     for(y=0; y<neuronsInLayers[x]; y++){
-      *currentNeuron->nextNeuron = malloc(sizeof(neuron));
+      currentNeuron->nextNeuron = malloc(sizeof(neuron));
       currentNeuron = currentNeuron->nextNeuron;
     }
     if(x<numLayers-1){
-      *initLayer->nextLayer = malloc(sizeof(neuron));
+      initLayer->nextLayer = malloc(sizeof(neuron));
       initLayer = initLayer->nextLayer;
       currentNeuron = initLayer;
     }
@@ -34,6 +34,29 @@ void freeAll(neuron *neuer){
     free(neuer->nextNeuron);
   }
   return;
+}
+neuron* findArr(neuron *neuer, int y){
+  int cont;
+  neuron *returnNeuron;
+
+  returnNeuron = neuer;
+  for(cont=0; cont<y; cont++){
+    returnNeuron = returnNeuron->nextNeuron;
+  }
+
+  return returnNeuron;
+}
+neuron* findMatrix(neuron *neuer, int x, int y){
+  int cont;
+  neuron *returnNeuron;
+
+  return returnNeuron = neuer;
+  for(cont=0; cont<x; cont++){
+    returnNeuron = returnNeuron->nextLayer;
+  }
+
+  returnNeuron = findArr(returnNeuron, y);
+  return returnNeuron;
 }
 int main(){
   // neuron *neurona = malloc(sizeof(neuron));
