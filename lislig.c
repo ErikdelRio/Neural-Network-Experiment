@@ -28,11 +28,17 @@ neuron* createNeuralNetwork(int neuronsInLayers[layers]){
   }
   return init;
 }
+// while(neuer->nextNeuron!=NULL){
+//   free(neuer->nextNeuron);
+// }
 void freeAll(neuron *neuer){
-
-  while(neuer->nextNeuron!=NULL){
-    free(neuer->nextNeuron);
+  if (neuer->nextNeuron!=NULL){
+    freeAll(neuer->nextNeuron);
   }
+  else if(neuer->nextLayer!=NULL){
+    freeAll(neuer->nextLayer);
+  }
+  free(neuer);
   return;
 }
 neuron* findArr(neuron *neuer, int y){
@@ -58,6 +64,15 @@ neuron* findMatrix(neuron *neuer, int x, int y){
   returnNeuron = findArr(returnNeuron, y);
   return returnNeuron;
 }
+
+int suma(int length, int arrNum[length]){
+  int i, sum=0;
+  for(i=0; i<length; i++){
+    sum += arrNum[i];
+  }
+  return sum;
+}
+
 int main(){
   // neuron *neurona = malloc(sizeof(neuron));
 
@@ -67,7 +82,11 @@ int main(){
   // free(neurona);
 
   // int vector[layers] = {2,3,4};
-  printf("%i %i", sizeof(layers), sizeof(int));
+  // printf("%i %i", sizeof(layers), sizeof(int));
+
+  int nums[3] = {1,2,3};
+
+  printf("%i", suma(sizeof(nums)/sizeof(int),nums));
   getchar();
   return 0;
 }
