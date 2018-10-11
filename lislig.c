@@ -30,20 +30,20 @@ typedef struct neuron{
 //   return init;
 // }
 
-void createNeuralNetwork(int neuronsInLayers[layers], int layer, neuron **init){
+void createNeuralNetwork(int neuronsInLayers[layers], int layer, neuron **init, neuron **initLayer){
   // int numLayers = layers/sizeof(int);
   // neuron *init;
 
-  (*init) = (struct neuron*)malloc(sizeof(struct neuron));
+  (*init) = (struct neuron *)malloc(sizeof(struct neuron));
   (*init)->nextNeuron = NULL;
   (*init)->nextLayer = NULL;
   (*init)->num = 0;
 
   neuronsInLayers[layer-1]--;
   if (neuronsInLayers[layer-1]>0){
-    createNeuralNetwork(neuronsInLayers, layer, &((*init)->nextNeuron));
+    createNeuralNetwork(neuronsInLayers, layer, &((*init)->nextNeuron), initLayer);
   } else if (layer<layers-1) {
-    createNeuralNetwork(neuronsInLayers, ++layer, &((*init)->nextLayer));
+    createNeuralNetwork(neuronsInLayers, ++layer, &((*initLayer)->nextLayer), &((*initLayer)->nextLayer));
   }
   return;
 }
@@ -108,25 +108,25 @@ int main(int argc, char *argv[]){
   //printf("%i\n", neurona->num);
 
   // free(neurona);
-  detente('1');
+  // detente('1');
 
   int vector[layers] = {2,3,2};
   neuron *init;
-  createNeuralNetwork(vector, 0, &init);
-  
-  detente('2');
-  detente('3');
+  createNeuralNetwork(vector, 1, &init, &init);
 
-  findMatrix(init, 1, 1)->num = 4;
+  // detente('2');
+  // detente('3');
 
+  findMatrix(init, 1, 1)->num = 12;
+
+  // detente('4');
   printf("%i - ",findMatrix(init, 0, 0)->num);
-  detente('4');
 
   printf("%i",findMatrix(init, 1, 1)->num);
-  detente('5');
+  // detente('5');
 
   freeAll(init);
-  detente('6');
+  // detente('6');
 
   // printf("%i %i", sizeof(layers), sizeof(int));
 
